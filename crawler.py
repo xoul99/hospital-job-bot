@@ -1,63 +1,42 @@
+import json
+import os
 import requests
-from bs4 import BeautifulSoup
+
+TOKEN = os.environ["TELEGRAM_TOKEN"]
+CHAT_ID = os.environ["TELEGRAM_CHAT_ID"]
 
 KEYWORDS = [
     "전산",
     "IT",
     "정보",
-    "보안"
+    "보안",
+    "정보보안",
+    "정보화",
+    "시스템",
+    "네트워크",
+    "ICT",
+    "EMR"
 ]
 
-URLS = {
-    "서울대병원":
-    "https://www.snuh.org/about/news/recruit/recruList.do",
+def send_telegram(message):
+    url = f"https://api.telegram.org/bot{TOKEN}/sendMessage"
 
-    "서울대분당병원":
-    "https://snubh.recruiter.co.kr/app/jobnotice/list",
+    requests.post(
+        url,
+        data={
+            "chat_id": CHAT_ID,
+            "text": message
+        }
+    )
 
-    "세브란스":
-    "https://yuhs.recruiter.co.kr/app/jobnotice/list",
+with open("hospitals.json", "r", encoding="utf-8") as f:
+    hospitals = json.load(f)
 
-    "서울아산":
-    "https://recruit.amc.seoul.kr/recruit/career/list.do",
+msg = "[병원 채용 모니터 테스트]\n\n"
 
-    "삼성서울":
-    "https://www.samsunghospital.com/home/recruit/recruitInfo/recruitNotice.do",
+for hospital, url in hospitals.items():
+    msg += f"✔ {hospital}\n{url}\n\n"
 
-    "서울성모":
-    "https://www.cmcseoul.or.kr/page/board/recruit?p=1&s=12&q=%7B%7D",
+send_telegram(msg)
 
-    "고대의료원":
-    "https://kumc.recruiter.co.kr/career/job",
-
-    "아주대병원":
-    "https://ajoumc.recruiter.co.kr/app/jobnotice/list"
-}
-
-def check_site(name, url):
-    try:
-        r = requests.get(url, timeout=10)
-
-        soup = BeautifulSoup(r.text, "html.parser")
-
-        text = soup.get_text()
-
-        found = []
-
-        for keyword in KEYWORDS:
-            if keyword.lower() in text.lower():
-                found.append(keyword)
-
-        return found
-
-    except:
-        return []
-
-for name, url in URLS.items():
-
-    result = check_site(name, url)
-
-    if result:
-        print(
-            f"{name} : 키워드 발견 ({','.join(result)})"
-        )
+print("텔레그램 발송 완료")
