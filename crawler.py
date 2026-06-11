@@ -45,15 +45,13 @@ EXCLUDE_WORDS = [
 
 
 def send_telegram(message):
-
-
-requests.post(
-    f"https://api.telegram.org/bot{TOKEN}/sendMessage",
-    data={
-        "chat_id": CHAT_ID,
-        "text": message
-    }
-)
+    requests.post(
+        f"https://api.telegram.org/bot{TOKEN}/sendMessage",
+        data={
+            "chat_id": CHAT_ID,
+            "text": message
+        }
+    )
 
 
 def load_seen():
