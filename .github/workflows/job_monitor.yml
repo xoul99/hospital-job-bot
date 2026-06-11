@@ -6,6 +6,9 @@ on:
 
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   run:
 
@@ -21,11 +24,24 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Install
-        run: pip install -r requirements.txt
+      - name: Install Packages
+        run: |
+          pip install -r requirements.txt
 
-      - name: Run Bot
+      - name: Run Crawler
         env:
           TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
-        run: python crawler.py
+        run: |
+          python crawler.py
+
+      - name: Commit seen_jobs.json
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@github.com"
+
+          git add seen_jobs.json
+
+          git commit -m "update seen jobs" || echo "No changes"
+
+          git push
