@@ -136,17 +136,17 @@ for hospital, url in hospitals.items():
 
 if new_jobs:
 
-message = "[신규 병원 IT 채용 발견]\n\n"
+    message = "[신규 병원 IT 채용 발견]\n\n"
 
-for job in new_jobs[:20]:
+    for job in new_jobs[:20]:
 
-    message += (
-        f"병원 : {job['hospital']}\n"
-        f"제목 : {job['title']}\n"
-        f"링크 : {job['url']}\n\n"
-    )
+        message += (
+            f"병원 : {job['hospital']}\n"
+            f"제목 : {job['title']}\n"
+            f"링크 : {job['url']}\n\n"
+        )
 
-send_telegram(message)
+    send_telegram(message)
 
 save_seen(seen)
 
