@@ -76,63 +76,63 @@ new_jobs = []
 
 for hospital, url in hospitals.items():
 
-try:
-    response = requests.get(
-        url,
-        timeout=15,
-        headers={
-            "User-Agent": "Mozilla/5.0"
-        }
-    )
-
-    soup = BeautifulSoup(
-        response.text,
-        "html.parser"
-    )
-
-    lines = soup.get_text("\n").split("\n")
-
-    for line in lines:
-
-        line = line.strip()
-
-        if len(line) < 5:
-            continue
-
-        if any(
-            exclude.lower() in line.lower()
-            for exclude in EXCLUDE_WORDS
-        ):
-            continue
-
-        has_keyword = any(
-            keyword.lower() in line.lower()
-            for keyword in KEYWORDS
+    try:
+        response = requests.get(
+            url,
+            timeout=15,
+            headers={
+                "User-Agent": "Mozilla/5.0"
+            }
         )
 
-        has_job_word = any(
-            word in line
-            for word in JOB_WORDS
+        soup = BeautifulSoup(
+            response.text,
+            "html.parser"
         )
 
-        if not (has_keyword and has_job_word):
-            continue
+        lines = soup.get_text("\n").split("\n")
 
-        unique_key = f"{hospital}_{line}"
+        for line in lines:
 
-        if unique_key in seen:
-            continue
+            line = line.strip()
 
-        seen.add(unique_key)
+            if len(line) < 5:
+                continue
 
-        new_jobs.append({
-            "hospital": hospital,
-            "title": line,
-            "url": url
-        })
+            if any(
+                exclude.lower() in line.lower()
+                for exclude in EXCLUDE_WORDS
+            ):
+                continue
 
-except Exception as e:
-    print(f"{hospital} 오류 : {e}")
+            has_keyword = any(
+                keyword.lower() in line.lower()
+                for keyword in KEYWORDS
+            )
+
+            has_job_word = any(
+                word in line
+                for word in JOB_WORDS
+            )
+
+            if not (has_keyword and has_job_word):
+                continue
+
+            unique_key = f"{hospital}_{line}"
+
+            if unique_key in seen:
+                continue
+
+            seen.add(unique_key)
+
+            new_jobs.append({
+                "hospital": hospital,
+                "title": line,
+                "url": url
+            })
+
+    except Exception as e:
+        print(f"{hospital} 오류 : {e}")
 
 if new_jobs:
 
