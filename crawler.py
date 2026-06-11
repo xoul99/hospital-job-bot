@@ -73,7 +73,7 @@ def save_seen(data):
 
 ```
     try:
-    response = requests.get(
+        response = requests.get(
         url,
         timeout=15,
         headers={
