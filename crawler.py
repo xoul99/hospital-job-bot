@@ -56,22 +56,22 @@ def send_telegram(message):
 
 def load_seen():
     try:
-    with open("seen_jobs.json", "r", encoding="utf-8") as f:
-    return set(json.load(f))
+        with open("seen_jobs.json", "r", encoding="utf-8") as f:
+            return set(json.load(f))
     except Exception:
-    return set()
+        return set()
 
 
 def save_seen(data):
     with open("seen_jobs.json", "w", encoding="utf-8") as f:
-    json.dump(list(data), f, ensure_ascii=False, indent=2)
+        json.dump(list(data), f, ensure_ascii=False, indent=2)
 
-    with open("hospitals.json", "r", encoding="utf-8") as f:
+
+with open("hospitals.json", "r", encoding="utf-8") as f:
     hospitals = json.load(f)
 
-    seen = load_seen()
-
-    new_jobs = []
+seen = load_seen()
+new_jobs = []
 
 
 for hospital, url in hospitals.items():
