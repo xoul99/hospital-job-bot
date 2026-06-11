@@ -19,12 +19,12 @@ KEYWORDS = [
 ]
 
 def send_telegram(message):
-    url = f"https://api.telegram.org/bot8423721416:AAFwBou72UpQeT9axHy7QXem2CGfbBfTQlo/sendMessage"
+    url = f"https://api.telegram.org/bot{TOKEN}/sendMessage"
 
     requests.post(
         url,
         data={
-            "chat_id": 8506993219,
+            "chat_id": CHAT_ID,
             "text": message
         }
     )
