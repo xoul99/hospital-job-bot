@@ -44,11 +44,11 @@ EXCLUDE_WORDS = [
 ]
 
 def send_telegram(message):
-requests.post(
-f"https://api.telegram.org/bot{TOKEN}/sendMessage",
-data={
-"chat_id": CHAT_ID,
-"text": message
+    requests.post(
+    f"https://api.telegram.org/bot{TOKEN}/sendMessage",
+    data={
+    "chat_id": CHAT_ID,
+    "text": message
 }
 )
 
@@ -67,7 +67,6 @@ with open("hospitals.json", "r", encoding="utf-8") as f:
 hospitals = json.load(f)
 
 seen = load_seen()
-
 new_jobs = []
 
 for hospital, url in hospitals.items():
