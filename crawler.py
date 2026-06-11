@@ -6,17 +6,35 @@ from bs4 import BeautifulSoup
 TOKEN = os.environ["TELEGRAM_TOKEN"]
 CHAT_ID = os.environ["TELEGRAM_CHAT_ID"]
 
+EXCLUDE_WORDS = [
+    "개인정보",
+    "정보공개",
+    "정보처리",
+    "정보통신망",
+    "정보보호 관리체계",
+    "처리방침",
+    "수집",
+    "이용안내",
+    "동의",
+    "copyright",
+    "입찰",
+    "고객",
+    "병원소개",
+    "진료",
+    "예약"
+]
+
 KEYWORDS = [
     "전산",
-    "IT",
-    "정보",
-    "보안",
     "정보보안",
-    "정보화",
+    "IT",
+    "ICT",
+    "EMR",
+    "전산팀",
+    "의료정보",
     "시스템",
     "네트워크",
-    "ICT",
-    "EMR"
+    "인프라"
 ]
 
 def send_telegram(msg):
@@ -72,10 +90,16 @@ for hospital, url in hospitals.items():
             if len(line) < 5:
                 continue
 
-            if any(
-                keyword.lower() in line.lower()
-                for keyword in KEYWORDS
-            ):
+         if any(
+    keyword.lower() in line.lower()
+    for keyword in KEYWORDS
+):
+
+    if any(
+        exclude.lower() in line.lower()
+        for exclude in EXCLUDE_WORDS
+    ):
+        continue
 
                 unique_key = (
                     hospital + "_" + line
