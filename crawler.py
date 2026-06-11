@@ -7,50 +7,54 @@ TOKEN = os.environ["TELEGRAM_TOKEN"]
 CHAT_ID = os.environ["TELEGRAM_CHAT_ID"]
 
 KEYWORDS = [
-"전산",
-"정보보안",
-"IT",
-"ICT",
-"EMR",
-"전산팀",
-"의료정보",
-"시스템",
-"네트워크",
-"인프라"
+    "전산",
+    "정보보안",
+    "IT",
+    "ICT",
+    "EMR",
+    "전산팀",
+    "의료정보",
+    "시스템",
+    "네트워크",
+    "인프라"
 ]
 
 JOB_WORDS = [
-"채용",
-"모집",
-"초빙"
+    "채용",
+    "모집",
+    "초빙"
 ]
 
 EXCLUDE_WORDS = [
-"개인정보",
-"정보공개",
-"정보처리",
-"정보통신망",
-"정보보호 관리체계",
-"처리방침",
-"수집",
-"이용안내",
-"동의",
-"copyright",
-"입찰",
-"고객",
-"병원소개",
-"진료",
-"예약"
+    "개인정보",
+    "정보공개",
+    "정보처리",
+    "정보통신망",
+    "정보보호 관리체계",
+    "처리방침",
+    "수집",
+    "이용안내",
+    "동의",
+    "copyright",
+    "입찰",
+    "고객",
+    "병원소개",
+    "진료",
+    "예약"
 ]
 
+
 def send_telegram(message):
+
+
 requests.post(
-f"https://api.telegram.org/bot{TOKEN}/sendMessage",
-data={
-"chat_id": CHAT_ID,
-"text": message
-}
+    f"https://api.telegram.org/bot{TOKEN}/sendMessage",
+    data={
+        "chat_id": CHAT_ID,
+        "text": message
+    }
 )
+
 
 def load_seen():
     try:
@@ -58,6 +62,7 @@ def load_seen():
     return set(json.load(f))
     except Exception:
     return set()
+
 
 def save_seen(data):
     with open("seen_jobs.json", "w", encoding="utf-8") as f:
@@ -69,6 +74,7 @@ def save_seen(data):
     seen = load_seen()
 
     new_jobs = []
+
 
 for hospital, url in hospitals.items():
 
