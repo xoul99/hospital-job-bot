@@ -44,36 +44,36 @@ EXCLUDE_WORDS = [
 ]
 
 def send_telegram(message):
-    requests.post(
-    f"https://api.telegram.org/bot{TOKEN}/sendMessage",
-    data={
-    "chat_id": CHAT_ID,
-    "text": message
+requests.post(
+f"https://api.telegram.org/bot{TOKEN}/sendMessage",
+data={
+"chat_id": CHAT_ID,
+"text": message
 }
 )
 
 def load_seen():
     try:
-        with open("seen_jobs.json", "r", encoding="utf-8") as f:
-            return set(json.load(f))
+    with open("seen_jobs.json", "r", encoding="utf-8") as f:
+    return set(json.load(f))
     except Exception:
-        return set()
+    return set()
 
 def save_seen(data):
     with open("seen_jobs.json", "w", encoding="utf-8") as f:
-        json.dump(list(data), f, ensure_ascii=False, indent=2)
+    json.dump(list(data), f, ensure_ascii=False, indent=2)
 
     with open("hospitals.json", "r", encoding="utf-8") as f:
-        hospitals = json.load(f)
+    hospitals = json.load(f)
 
-        seen = load_seen()
-        new_jobs = []
+    seen = load_seen()
 
-    for hospital, url in hospitals.items():
+    new_jobs = []
 
-```
-    try:
-        response = requests.get(
+for hospital, url in hospitals.items():
+
+try:
+    response = requests.get(
         url,
         timeout=15,
         headers={
@@ -129,11 +129,9 @@ def save_seen(data):
 
 except Exception as e:
     print(f"{hospital} 오류 : {e}")
-```
 
 if new_jobs:
 
-```
 message = "[신규 병원 IT 채용 발견]\n\n"
 
 for job in new_jobs[:20]:
@@ -145,7 +143,6 @@ for job in new_jobs[:20]:
     )
 
 send_telegram(message)
-```
 
 save_seen(seen)
 
