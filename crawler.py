@@ -54,10 +54,10 @@ def send_telegram(message):
 
 def load_seen():
     try:
-    with open("seen_jobs.json", "r", encoding="utf-8") as f:
-    return set(json.load(f))
+        with open("seen_jobs.json", "r", encoding="utf-8") as f:
+            return set(json.load(f))
     except Exception:
-    return set()
+        return set()
 
 def save_seen(data):
     with open("seen_jobs.json", "w", encoding="utf-8") as f:
