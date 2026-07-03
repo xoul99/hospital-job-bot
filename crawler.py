@@ -8,6 +8,7 @@ CHAT_ID = os.environ["TELEGRAM_CHAT_ID"]
 
 KEYWORDS = [
     "전산",
+    "정보",
     "정보보안",
     "IT",
     "ICT",
